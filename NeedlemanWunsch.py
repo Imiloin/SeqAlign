@@ -1,4 +1,4 @@
-from functools import wraps
+from functools import lru_cache
 
 
 
@@ -18,17 +18,7 @@ class NeedlemanWunsch:
         self.g = g
 
 
-    def mem(func):
-        cache = {}
-        @wraps(func)
-        def wrap(*args):
-            if args not in cache:
-                cache[args] = func(*args)
-            return cache[args]
-        return wrap
-
-
-    @mem
+    @lru_cache(maxsize=None)
     def nwRec(self, i: int, j: int) -> float:
         if i == 0 and j == 0:
             return 0
@@ -67,6 +57,8 @@ class NeedlemanWunsch:
 
 # Example usage:
 if __name__ == '__main__':
+    # check the result here
+    # http://rna.informatik.uni-freiburg.de/Teaching/index.jsp?toolName=Needleman-Wunsch
     S = 'AGGGCT'
     T = 'AGGCA'
     nw = NeedlemanWunsch(S, T, m=2, M=-2, g=-3)

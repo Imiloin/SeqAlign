@@ -34,6 +34,8 @@ class SmithWaterman:
 
 # Example usage:
 if __name__ == '__main__':
+    # check the result here
+    # http://rna.informatik.uni-freiburg.de/Teaching/index.jsp?toolName=Smith-Waterman
     S = 'AGGGCT'
     T = 'AGGCA'
     sw = SmithWaterman(S, T, m=2, M=-2, g=-3)
