@@ -18,7 +18,16 @@ SJTU BIO2502 Mini-project 2: Dynamic programming
    - Write Smith-Waterman algorithm in Python using the fashion of object-oriented programming.
    - Run local alignment on the random sequences generated in the exercise above. 
 
-## Prepare Data
+## Quick Start
+
+### Clone this Repository
+
+```bash
+git clone https://github.com/Imiloin/SeqAlign.git
+cd SeqAlign
+```
+
+### Prepare Data
 
 首先需要下载数据，在项目目录下，
 ```bash
@@ -30,7 +39,7 @@ unzip -j human_chr1_seq.zip ncbi_dataset/data/GCF_000001405.40/chr1.fna -d seque
 生成的随机序列将使用该基因组中 A/C/G/T 的比例。如果没有下载，将启用 `frequencies.json` 中指定的频率值。
 
 
-## Install Dependencies
+### Install Dependencies
 
 ```bash
 # conda activate <your-env>
@@ -38,7 +47,7 @@ pip install -r requirements.txt
 ```
 
 
-## Usage
+### Usage
 
 `main.py` 是一个用于生物序列对齐的脚本。它接受以下命令行参数：
 
