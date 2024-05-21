@@ -18,7 +18,7 @@ class NeedlemanWunsch:
         self.g = g
 
 
-    @lru_cache(maxsize=None)
+    @lru_cache(maxsize=2**24)
     def nwRec(self, i: int, j: int) -> float:
         if i == 0 and j == 0:
             return 0

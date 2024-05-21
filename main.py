@@ -12,15 +12,9 @@ import numpy as np
 ###############################################
 
 parser = argparse.ArgumentParser(description="BioSequence Alignment.")
-parser.add_argument(
-    "m", type=float, help="Match score, positive float (default: 1)"
-)
-parser.add_argument(
-    "M", type=float, help="Mismatch score, negative float (default: -1)"
-)
-parser.add_argument(
-    "g", type=float, help="Gap penalty, negative float (default: -1)"
-)
+parser.add_argument("m", type=float, help="Match score, positive float")
+parser.add_argument("M", type=float, help="Mismatch score, negative float")
+parser.add_argument("g", type=float, help="Gap penalty, negative float")
 parser.add_argument(
     "--algo",
     type=str,
@@ -40,7 +34,7 @@ args = parser.parse_args()
 # calculate base frequencies
 ###############################################
 
-if not os.path.exists('frequencies.json'):
+if not os.path.exists("frequencies.json"):
     current_dir = os.path.dirname(os.path.abspath(__file__))
     seq = os.path.join(current_dir, "sequences", "chr1.fna")
     genomes = SeqIO.parse(seq, "fasta")
@@ -54,11 +48,11 @@ if not os.path.exists('frequencies.json'):
             base: count / total for base, count in counter.items() if base not in "NMR"
         }
         print(frequencies)
-    
-    with open('frequencies.json', 'w') as f:
+
+    with open("frequencies.json", "w") as f:
         json.dump(frequencies, f)
 else:
-    with open('frequencies.json', 'r') as f:
+    with open("frequencies.json", "r") as f:
         frequencies = json.load(f)
 
 
@@ -72,13 +66,17 @@ probs = list(frequencies.values())
 
 # Length of the sequences
 N = args.seqlen
-if (N > 100):
-    logging.warning("Sequence length is too long, may take a long time.")
+if N > 100:
+    logging.warning(
+        "Sequence length is too long, may take a long time, requires huge amount of memory."
+    )
 
 # Number of sequences
 num_seqs = args.seqnum
-if (num_seqs > 200):
-    logging.warning("Number of sequences is too large, may take a long time.")
+if num_seqs > 200:
+    logging.warning(
+        "Number of sequences is too large, may take a long time, requires huge amount of memory."
+    )
 
 # Generate sequences
 sequences = []
@@ -102,11 +100,11 @@ for i, seq0 in enumerate(sequences):
         if i > j:
             continue
         if args.algo == "nw":
-            nw = NeedlemanWunsch(seq0, seq1, m=1, M=-1, g=-1)
+            nw = NeedlemanWunsch(seq0, seq1, m=args.m, M=args.M, g=args.g)
             score = nw.nw()
             matrix[i][j] = matrix[j][i] = score
         elif args.algo == "sw":
-            sw = SmithWaterman(seq0, seq1, m=1, M=-1, g=-1)
+            sw = SmithWaterman(seq0, seq1, m=args.m, M=args.M, g=args.g)
             score = sw.sw()
             matrix[i][j] = matrix[j][i] = score
 
@@ -121,15 +119,12 @@ import matplotlib.pyplot as plt
 # flat_matrix = [item for sublist in matrix_nw for item in sublist]
 # Flatten the matrix and ignoring diagonal elements
 flat_matrix = [
-    matrix[i][j]
-    for i in range(len(matrix))
-    for j in range(len(matrix[i]))
-    if i != j
+    matrix[i][j] for i in range(len(matrix)) for j in range(len(matrix[i])) if i != j
 ]
 # print(matrix_nw)
 
 # Plot histogram
-plt.hist(flat_matrix, bins=N//5, edgecolor="black")
+plt.hist(flat_matrix, bins=N // 5, edgecolor="black")
 plt.title("Histogram of alignment score")
 plt.xlabel("Value")
 plt.ylabel("Frequency")
