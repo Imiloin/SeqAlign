@@ -68,7 +68,7 @@ pip install -r requirements.txt
 以下是运行 `main.py` 的一个示例：
 
 ```bash
-python main.py 1 -1 -1 --algo nw --seqnum 100 --seqlen 50
+python main.py 1 -1 -2 --algo nw --seqnum 100 --seqlen 50
 ```
 
-这将使用 Needleman-Wunsch 算法对 100 个长度为 50 的随机序列进行对齐，匹配得分为 1，不匹配得分为 -1，空位罚分为 -1。
+这将使用 Needleman-Wunsch 算法对 100 个长度为 50 的随机序列进行对齐，匹配得分为 1，不匹配得分为 -1，空位罚分为 -2。

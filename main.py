@@ -30,6 +30,10 @@ parser.add_argument(
 
 args = parser.parse_args()
 
+assert args.m > 0, "Match score must be positive."
+assert args.M < 0, "Mismatch score must be negative."
+assert args.g < 0, "Gap penalty must be negative."
+
 ###############################################
 # calculate base frequencies
 ###############################################
