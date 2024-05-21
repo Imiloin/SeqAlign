@@ -34,9 +34,6 @@ class NeedlemanWunsch:
                 self.nwRec(i, j-1) + self.g
             )
 
-    def nw(self) -> float:
-        return self.nwRec(len(self.S), len(self.T))
-
     def alignment_matrix(self) -> 'list[list[float]]':
         matrix = [[0 for _ in range(len(self.T)+1)] for _ in range(len(self.S)+1)]
         for i in range(len(self.S)+1):
@@ -52,6 +49,11 @@ class NeedlemanWunsch:
                     matrix[i][j-1] + self.g
                 )
         return matrix
+    
+    def nw(self) -> float:
+        # return self.nwRec(len(self.S), len(self.T))
+        matrix = self.alignment_matrix()
+        return matrix[-1][-1]
 
 
 

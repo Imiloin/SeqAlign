@@ -67,16 +67,12 @@ probs = list(frequencies.values())
 # Length of the sequences
 N = args.seqlen
 if N > 100:
-    logging.warning(
-        "Sequence length is too long, may take a long time, requires huge amount of memory."
-    )
+    logging.warning("Sequence length is too long, may take a long time.")
 
 # Number of sequences
 num_seqs = args.seqnum
 if num_seqs > 200:
-    logging.warning(
-        "Number of sequences is too large, may take a long time, requires huge amount of memory."
-    )
+    logging.warning("Number of sequences is too large, may take a long time.")
 
 # Generate sequences
 sequences = []
@@ -107,6 +103,8 @@ for i, seq0 in enumerate(sequences):
             sw = SmithWaterman(seq0, seq1, m=args.m, M=args.M, g=args.g)
             score = sw.sw()
             matrix[i][j] = matrix[j][i] = score
+        else:
+            raise ValueError(f"Invalid alignment algorithm {args.algo}.")
 
 
 ###############################################
